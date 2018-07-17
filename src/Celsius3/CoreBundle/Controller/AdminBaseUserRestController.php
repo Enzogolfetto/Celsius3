@@ -154,7 +154,7 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
     {
         $repository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser');
 
-        $admins = $repository->findAdmins($this->getInstance());
+        $admins = $repository->findManagerOrder($this->getInstance());
 
         $filteredAdmins = array_filter($admins, function (BaseUser $admin) {
             return intval($admin->getId()) !== intval($this->getUser()->getId());

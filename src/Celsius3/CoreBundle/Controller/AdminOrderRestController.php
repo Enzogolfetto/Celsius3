@@ -235,7 +235,8 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
                     throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.not_found_entity.order');
                 }
                 $instance = $this->getInstance();
-                $admins = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->findAdmins($instance);
+
+                $admins = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->findManagerOrder($instance);
                 $interaction['result'] = true;
                 $interaction['order'] = $id;
                 foreach ($admins as $key => $value) {
