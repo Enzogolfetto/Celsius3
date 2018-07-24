@@ -184,7 +184,6 @@ class AdminBaseUserController extends BaseUserController
                         'user' => $entity,
                             ), 'admin_user');
         }
-
         $response = $this->baseTransformAction($id, UserTransformType::class, array(
                     'instance' => $this->getInstance(),
                     'user' => $entity,

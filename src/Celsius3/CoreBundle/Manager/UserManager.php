@@ -105,11 +105,12 @@ class UserManager
 
     public function hasHigherRoles(BaseUser $user1, BaseUser $user2)
     {
-        if ($user1->hasRole('ROLE_SUPER_ADMIN')) {
+        /*if ($user1->hasRole('ROLE_SUPER_ADMIN')) {
             return true;
-        }
+        }*/
 
         if ($user1->hasRole('ROLE_ADMIN') && !$user2->hasRole('ROLE_SUPER_ADMIN')) {
+
             return true;
         }
 

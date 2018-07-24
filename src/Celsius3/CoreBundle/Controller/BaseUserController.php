@@ -45,6 +45,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
         }
 
         if ($this->get('celsius3_core.user_manager')->hasHigherRoles($entity, $this->getUser())) {
+
             return $this->redirectToRoute($this->getUserListRoute());
         }
 
@@ -57,6 +58,25 @@ abstract class BaseUserController extends BaseInstanceDependentController
         );
     }
 
+    private function getErrorMessages(\Symfony\Component\Form\Form $form) {
+        $errors = array();
+
+        foreach ($form->getErrors() as $key => $error) {
+            if ($form->isRoot()) {
+                $errors['#'][] = $error->getMessage();
+            } else {
+                $errors[] = $error->getMessage();
+            }
+        }
+
+        foreach ($form->all() as $child) {
+            if (!$child->isValid()) {
+                $errors[$child->getName()] = $this->getErrorMessages($child);
+            }
+        }
+
+        return $errors;
+    }
     protected function baseDoTransformAction($id, $transformType, array $options, $route)
     {
         $entity = $this->findQuery('BaseUser', $id);
@@ -68,8 +88,8 @@ abstract class BaseUserController extends BaseInstanceDependentController
         $transformForm = $this->createForm($transformType, null, $options);
 
         $request = $this->get('request_stack')->getCurrentRequest();
-
         $transformForm->handleRequest($request);
+
 
         if ($transformForm->isValid()) {
             $data = $transformForm->getData();
@@ -89,11 +109,14 @@ abstract class BaseUserController extends BaseInstanceDependentController
             $this->get('session')->getFlashBag()->add('success', 'The User was successfully transformed.');
 
             return $this->redirect($this->generateUrl($route.'_transform', array('id' => $id)));
+        }else{
+          //  return $this->redirect($this->generateUrl($route.'_transform', array('id' => $id)));
+            $string = (string) $transformForm->getErrors(true, false);
+            print_r($string);die;
         }
 
         $this->get('session')->getFlashBag()
-                ->add('error', 'There were errors transforming the User.');
-
+                ->add('error', $string);
         return array(
             'entity' => $entity,
             'edit_form' => $transformForm->createView(),
