@@ -37,6 +37,7 @@ class UserTransformType extends AbstractType
         $choices = array(
             UserManager::$roles_names[UserManager::ROLE_LIBRARIAN] => UserManager::ROLE_LIBRARIAN,
             UserManager::$roles_names[UserManager::ROLE_ADMIN] => UserManager::ROLE_ADMIN,
+            UserManager::$roles_names[UserManager::ROLE_ORDER_MANAGER] => UserManager::ROLE_ORDER_MANAGER,
         );
 
         if (!is_null($options['instance'])) {
