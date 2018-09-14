@@ -176,14 +176,16 @@ class AdminBaseUserController extends BaseUserController
      */
     public function transformAction($id, Request $request)
     {
-        $entity = $this->findQuery('BaseUser', $id);
 
+        $entity = $this->findQuery('BaseUser', $id);
         if ($request->getMethod() === 'POST') {
+
             return $this->baseDoTransformAction($id, UserTransformType::class, array(
                         'instance' => $this->getInstance(),
                         'user' => $entity,
                             ), 'admin_user');
         }
+
         $response = $this->baseTransformAction($id, UserTransformType::class, array(
                     'instance' => $this->getInstance(),
                     'user' => $entity,

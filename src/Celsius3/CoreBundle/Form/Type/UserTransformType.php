@@ -39,7 +39,6 @@ class UserTransformType extends AbstractType
             UserManager::$roles_names[UserManager::ROLE_ADMIN] => UserManager::ROLE_ADMIN,
             UserManager::$roles_names[UserManager::ROLE_ORDER_MANAGER] => UserManager::ROLE_ORDER_MANAGER,
         );
-
         if (!is_null($options['instance'])) {
 
 
@@ -102,28 +101,6 @@ class UserTransformType extends AbstractType
         ));
     }
 
-    /**
-     * Returns the name of this type.
-     *
-     * @return string The name of this type
-     */
-    public function getName()
-    {
-        // TODO: Implement getName() method.
-    }
-
-    /**
-     * Returns the prefix of the template block name for this type.
-     *
-     * The block prefix defaults to the underscored short class name with
-     * the "Type" suffix removed (e.g. "UserProfileType" => "user_profile").
-     *
-     * @return string The prefix of the template block name
-     */
-    public function getBlockPrefix()
-    {
-        // TODO: Implement getBlockPrefix() method.
-    }
 
     /**
      * Sets the default options for this type.
@@ -137,5 +114,18 @@ class UserTransformType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         // TODO: Implement setDefaultOptions() method.
+    }
+
+    /**
+     * Returns the name of this type.
+     *
+     * @return string The name of this type
+     *
+     * @deprecated Deprecated since Symfony 2.8, to be removed in Symfony 3.0.
+     *             Use the fully-qualified class name of the type instead.
+     */
+    public function getName()
+    {
+        // TODO: Implement getName() method.
     }
 }

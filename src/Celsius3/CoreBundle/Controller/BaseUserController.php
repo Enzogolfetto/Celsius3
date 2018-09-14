@@ -50,7 +50,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
         }
 
         $transformForm = $this->createForm($transformType, null, $options);
-
+     //   dump($transformForm);die;
         return array(
             'entity' => $entity,
             'transform_form' => $transformForm->createView(),
@@ -112,7 +112,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
         }else{
           //  return $this->redirect($this->generateUrl($route.'_transform', array('id' => $id)));
             $string = (string) $transformForm->getErrors(true, false);
-            print_r($string);die;
+            print_r($string); die;
         }
 
         $this->get('session')->getFlashBag()
