@@ -118,6 +118,11 @@ class Institution extends Provider
      */
     private $librarian;
 
+    /**
+     * @ORM\Column(name="istec", type="boolean")
+     */
+    private $istec;
+
     public function getProviderType()
     {
         return 'institution';
@@ -542,4 +547,29 @@ class Institution extends Provider
     {
         return $this->librarian;
     }
+
+    /**
+     * Set sent.
+     *
+     * @param bool $sent
+     *
+     * @return Email
+     */
+    public function setIstec($istec)
+    {
+        $this->istec = $istec;
+
+        return $this;
+    }
+
+    /**
+     * Get sent.
+     *
+     * @return bool
+     */
+    public function getIstec()
+    {
+        return $this->istec;
+    }
+
 }
