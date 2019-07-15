@@ -18,6 +18,20 @@
         - Celsius3</title>
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}"/>
     {% block stylesheets %}
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- plugins:css -->
+        <link rel="stylesheet" href="{{ asset('bundles/celsius3core/theme/vendors/ti-icons/css/themify-icons.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/celsius3core/theme/vendors/css/vendor.bundle.base.css') }}">
+        <!-- endinject -->
+        <!-- Plugin css for this page -->
+        <!-- End plugin css for this page -->
+        <!-- inject:css -->
+        <link rel="stylesheet" href="{{ asset('bundles/celsius3core/theme/css/horizontal-layout-light/style.css') }}">
+        <!-- endinject -->
+
+
         <link rel="stylesheet" type="text/css" href="{{ asset('build/global.css') }}"/>
         <link rel="stylesheet" type="text/css" href="{{ asset('build/celsius3core.css') }}"/>
 
@@ -31,6 +45,13 @@
         <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/html5shiv.js') }}"></script>
         <script type="text/javascript"
                 src="{{ asset('bundles/celsius3core/js/respond.min.js') }}"></script> <![endif]-->
+
+
+
+        <!-- Required meta tags -->
+
+
+
     {% endblock %}
     {% if app.environment == 'prod' %}
         <script>
@@ -58,7 +79,11 @@
         href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your
     experience.</p> <![endif]-->
 {% block header %}
-    <div id="header">
+<div class="container-scroller">
+    {% block navigation_top %}
+        {% include 'Celsius3CoreBundle:Layout:_navigation.html.twig' %}
+    {% endblock %}
+    {#<div id="header">
         <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -83,7 +108,7 @@
                 {% include 'Celsius3CoreBundle:Layout:_activity.html.twig' %}
             </div>
         </nav>
-    </div>
+    </div>#}
 {% endblock %}
 <div class="container">
     <div class="row">
@@ -155,7 +180,7 @@
         </div>
     </div>
 </div>
-
+</div>
 {% include 'Celsius3CoreBundle:Layout:_mail_modal.html.twig' %}
 {% block javascripts %}
     {% include 'Celsius3CoreBundle:Layout:var.html.twig' %}
@@ -180,6 +205,27 @@
     <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
     <script src="{{ url('bazinga_jstranslation_js') }}"></script>
     <script src="{{ asset('bundles/celsius3core/js/angular-locale_' ~ app.request.get("_locale") ~ '.js') }}"></script>
+
+
+    <!-- plugins:js -->
+    <script src="{{ asset('bundles/celsius3core/theme/vendors/ti-icons/css/themify-icons.css') }}../../vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="{{ url('bazinga_jstranslation_js') }}../../vendors/chart.js/Chart.min.js"></script>
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="{{ url('bazinga_jstranslation_js') }}../../js/off-canvas.js"></script>
+    <script src="{{ url('bazinga_jstranslation_js') }}../../js/hoverable-collapse.js"></script>
+    <script src="{{ url('bazinga_jstranslation_js') }}../../js/template.js"></script>
+    <script src="{{ url('bazinga_jstranslation_js') }}../../js/settings.js"></script>
+    <script src="{{ url('bazinga_jstranslation_js') }}../../js/todolist.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <script src="{{ url('bazinga_jstranslation_js') }}../../js/dashboard.js"></script>
+    <script src="{{ url('bundle') }}"></script>
+    <!-- End custom js for this page-->
+
+
 {% endblock %}
 </body>
 </html>
