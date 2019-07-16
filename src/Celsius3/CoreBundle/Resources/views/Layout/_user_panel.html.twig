@@ -1,33 +1,26 @@
-<ul class="pull-right nav navbar-nav">
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <span class="glyphicon glyphicon-user"></span> {{ app.user?app.user.username:'' }}
-                <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-right">
-                {% if app.user %}
-                    <li>
-                        <a href="{{ path('fos_user_profile_show') }}"><span class="glyphicon glyphicon-wrench"></span> {{ 'Profile' | trans }}</a>
-                    </li>
-                    
-                    {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
-                        <li>
-                            <a href="{{ path('switch_user', {_switch_user: '_exit'}) }}"> <span class="glyphicon glyphicon-off"></span> {{ 'Logout'|trans }}</a>
-                        </li>
-                    {% else %}
-                        <li>
-                            <a href="{{ path('fos_user_security_logout') }}"><span class="glyphicon glyphicon-off"></span> {{ 'Logout'|trans }}</a>
-                        </li>
-                    {% endif %}
-
+<li class="nav-item nav-profile dropdown">
+    <a class="nav-link" href="#" data-toggle="dropdown" id="profileDropdown">
+        <img src="https://via.placeholder.com/40x40" alt="profile"/>
+    </a>
+    <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+        {% if app.user %}
+                <a class="dropdown-item" href="{{ path('fos_user_profile_show') }}">
+                    <i class="ti-settings text-primary"></i>
+                    {{ 'Profile' | trans }}
+                </a>
+                {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+                   <a href="{{ path('switch_user', {_switch_user: '_exit'}) }}"> <span class="glyphicon glyphicon-off"></span> {{ 'Logout'|trans }}</a>
                 {% else %}
-                    <li>
-                        <a href="{{ path('fos_user_security_login') }}"><span class="glyphicon glyphicon-user"></span> {{ 'Login'|trans }}</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('fos_user_registration_register') }}"><span class="glyphicon glyphicon-plus"></span> {{ 'Register'|trans }}</a>
-                    </li>
+                     <a class="dropdown-item" href="{{ path('fos_user_security_logout') }}">
+                            <i class="ti-power-off text-primary"></i>
+                         {{ 'Logout'|trans }}
+                        </a>
                 {% endif %}
-            </ul>
-        </li>
-</ul>
+        {% else %}
+             <a class="dropdown-item" href="{{ path('fos_user_security_login') }}"><span class="glyphicon glyphicon-user"></span> {{ 'Login'|trans }}</a>
+             <a class="dropdown-item" href="{{ path('fos_user_registration_register') }}"><span class="glyphicon glyphicon-plus"></span> {{ 'Register'|trans }}</a>
+        {% endif %}
+
+
+    </div>
+</li>
