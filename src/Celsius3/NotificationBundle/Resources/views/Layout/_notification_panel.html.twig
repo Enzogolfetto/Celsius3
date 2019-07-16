@@ -1,18 +1,38 @@
-<ul class="pull-right nav navbar-nav">
+<li class="nav-item dropdown">
     {% if app.user %}
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <span class="glyphicon glyphicon-star"></span> <span id="notification-count">0</span>
-                <b class="caret"></b>
-            </a>
-            <ul id="notification-list" class="dropdown-menu dropdown-menu-right">
-                <li>
-                    <a href="{{ path('user_notification') }}">{{ 'Show all'|trans }}</a>
-                </li>
-                <li>
-                    <a href="{{ path('user_notification_subscriptions') }}">{{ 'Susbcriptions'|trans }}</a>
-                </li>
-            </ul>
-        </li>
+        <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center" id="messageDropdown" href="#" data-toggle="dropdown">
+            <i class="ti-bell mx-0"></i>
+            <span class="count"></span>
+            <b class="caret"></b>
+        </a>
+        <span id="notification-count">0</span>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
+                <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
+                <a href="{{ path('user_notification') }}" class="dropdown-item preview-item">
+                    <div class="preview-thumbnail">
+                        <div class="preview-icon bg-success">
+                            <i class="ti-info-alt mx-0"></i>
+                        </div>
+                    </div>
+                    <div class="preview-item-content">
+                        <h6 class="preview-subject font-weight-normal">
+                            <span class="glyphicon glyphicon-plus"></span> {{ 'Show all'|trans }}
+                        </h6>
+
+                    </div>
+                </a>
+                <a href="{{ path('user_notification_subscriptions') }}" class="dropdown-item preview-item">
+                    <div class="preview-thumbnail">
+                        <div class="preview-icon bg-warning">
+                            <i class="ti-settings mx-0"></i>
+                        </div>
+                    </div>
+                    <div class="preview-item-content">
+                        <h6 class="preview-subject font-weight-normal">{{ 'Susbcriptions'|trans }}</h6>
+                    </div>
+                </a>
+
+            </div>
+
     {% endif %}
-</ul>
+</li>
