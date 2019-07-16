@@ -1,14 +1,19 @@
+{% set local = app.request.getHost() == app.session.get('instance_host') %}
+{% import _self as local_macro %}
 
 <div class="horizontal-menu">
     <nav class="navbar top-navbar col-lg-12 col-12 p-0">
         <div class="container">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
                 <a class="navbar-brand" href="{{ path('directory_homepage') }}">Celsius3</a>
+                <a class="navbar-brand"  href="{{ path('public_index') }}"><i class="ti-home menu-icon"> </i> <span class="menu-title">{{ 'Home' | trans }}</span></a>
+
                 {#
                 <a class="navbar-brand brand-logo" href="index.html"><img src="../../images/logo-white.svg" alt="logo"/></a>
                 <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../../images/logo-mini.svg" alt="logo"/></a>#}
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+                {% if app.user %}
                 <ul class="navbar-nav mr-lg-2">
                     <li class="nav-item nav-search d-none d-lg-block">
                         <div class="input-group">
@@ -21,6 +26,7 @@
                         </div>
                     </li>
                 </ul>
+                {% endif %}
                 <ul class="navbar-nav navbar-nav-right">
                     {% block instance_panels %}
                         {% include 'Celsius3CoreBundle:Layout:_instances_panel.html.twig' %}
@@ -129,21 +135,51 @@
             </div>
         </div>
     </nav>
+    {% if app.user %}
     <nav class="bottom-navbar">
         <div class="container">
             <ul class="nav page-navigation">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">
-                        <i class="ti-home menu-icon"></i>
-                        <span class="menu-title">Dashboard</span>
-                    </a>
+                    <a class="nav-link" href="{{ path('public_index') }}"><i class="ti-home menu-icon"> </i> <span class="menu-title">{{ 'Home' | trans }}</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="pages/widgets/widgets.html">
-                        <i class="ti-settings menu-icon"></i>
-                        <span class="menu-title">Widgets</span>
+
+                {% if (is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_USER')) and local) or (is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_SUPER_ADMIN')) and not local) %}
+                    <li  class="nav-item"><a class="nav-link" href="{{ path('user_index') }}">
+                            <i class="ti-palette menu-icon"></i>
+                            <span class="menu-title">{{ 'My Site' | trans }}</span></a></li>
+                {% endif %}
+
+                {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_USER')) and not local %}
+                    <li  class="nav-item" ><a class="nav-link" href="{{ 'http://' ~ app.session.get('instance_host') }}">{{ 'My Instance' | trans }}</a></li>
+                {% endif %}
+
+                {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_STATISTICS')) %}
+                    <li  class="nav-item" ><a class="nav-link" href="{{ path('superadmin_statistics') }}">{{ 'Statistics Administration' | trans }}</a></li>
+                {% endif %}
+
+                {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_TECHNICAL')) %}
+                    <li  class="nav-item"><a class="nav-link" href="{{ path('tichnical_index') }}">{{ 'Administration Technical' | trans }}</a></li>
+                {% endif %}
+
+                {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_TICKET')) %}
+                    <li  class="nav-item"><a class="nav-link" href="{{ path('ticket_index') }}">{{ 'Sistema de Ticket' | trans }}</a></li>
+                {% endif %}
+
+                    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_SUPER_ADMIN')) %}
+                        <li class="nav-item">
+
+                        <a class="nav-link" href="{{ path('superadministration') }}">
+                            <i class="ti-settings menu-icon"></i>{{ 'Network Administration' | trans }}
+                        {% set pending_dr = pending_data_requests(app.user) %}
+                            {% if pending_dr > 0 %}
+                            <span class="label label-danger">{{  pending_dr }}</span>
+                        {% endif %}
+
                     </a>
-                </li>
+                         </li>
+                {% endif %}
+
+
                 <li class="nav-item mega-menu">
                     <a href="#" class="nav-link">
                         <i class="ti-palette menu-icon"></i>
@@ -358,5 +394,6 @@
             </ul>
         </div>
     </nav>
+    {% endif %}
 </div>
 
