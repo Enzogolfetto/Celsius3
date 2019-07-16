@@ -9,26 +9,22 @@
 {% set secondaryInstances = app.user ? app.user.getSecondaryInstances() : null %}
 
 {% if secondaryInstances is not empty %}
-    <ul class="pull-right nav navbar-nav">
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                {{ app.session.get('instance_url') | upper }}
-                <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-right">
-                {% if app.session.get('instance_id') != app.user.getInstance().getId() %}
-                    <li>
-                        <a href="{{ path('user_change_context', {'id':app.user.getInstance().getId()}) }}">{{ app.user.getInstance().getUrl() | upper }}</a>
-                    </li>
+
+    <li class="nav-item nav-profile dropdown">
+        <a class="nav-link" href="#" data-toggle="dropdown" href="#">
+            {{ app.session.get('instance_url') | upper }}
+            <b class="caret"></b>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+            {% if app.session.get('instance_id') != app.user.getInstance().getId() %}
+                <a  class="dropdown-item" href="{{ path('user_change_context', {'id':app.user.getInstance().getId()}) }}">{{ app.user.getInstance().getUrl() | upper }}</a>
+            {% endif %}
+            {% for id,roles in secondaryInstances %}
+                {% if app.session.get('instance_id') != id %}
+                        <a class="dropdown-item" href="{{ path('user_change_context', {'id':id}) }}">{{ get_instance_url(id) | upper }}</a>
+
                 {% endif %}
-                {% for id,roles in secondaryInstances %}
-                    {% if app.session.get('instance_id') != id %}
-                        <li>
-                            <a href="{{ path('user_change_context', {'id':id}) }}">{{ get_instance_url(id) | upper }}</a>
-                        </li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-        </li>
-    </ul>
+            {% endfor %}
+         </div>
+    </li>
 {% endif %}

@@ -1,15 +1,12 @@
-<ul class="pull-right nav navbar-nav">
-    <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            {{ app.request.get('_locale')|upper }}
-            <b class="caret"></b>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-right">
-            {% for locale in ['es', 'en', 'pt'] %}
-                <li>
-                    <a href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({ '_locale': locale })) }}">{{ locale|upper }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-    </li>
-</ul>
+<li class="nav-item nav-profile dropdown">
+    <a class="nav-link" href="#" data-toggle="dropdown" href="#">
+        {{ app.request.get('_locale')|upper }}
+        <b class="caret"></b>
+    </a>
+
+    <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+        {% for locale in ['es', 'en', 'pt'] %}
+           <a class="dropdown-item" href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({ '_locale': locale })) }}">{{ locale|upper }}</a>
+        {% endfor %}
+    </div>
+</li>

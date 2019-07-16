@@ -51,7 +51,7 @@ class Builder implements ContainerAwareInterface
     public function publicMenu(FactoryInterface $factory)
     {
         $menu = $factory->createItem('root');
-        $menu->setChildrenAttribute('class', 'nav nav-pills');
+        $menu->setChildrenAttribute('class', 'nav nav-pills nav-pills-info');
 
         $instance = $this->container->get('celsius3_core.instance_helper')->getSessionOrUrlInstance();
 

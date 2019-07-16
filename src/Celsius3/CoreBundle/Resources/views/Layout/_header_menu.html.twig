@@ -32,7 +32,7 @@
                         {% include 'Celsius3CoreBundle:Layout:_instances_panel.html.twig' %}
                         {% include 'Celsius3NotificationBundle:Layout:_notification_panel.html.twig' %}
                     {% endblock %}
-                    {% include 'Celsius3CoreBundle:Layout:_lang_panel.html.twig' %}
+
                     {% include 'Celsius3CoreBundle:Layout:_activity.html.twig' %}
                     <li class="nav-item dropdown mr-1">
                         <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center" id="messageDropdown" href="#" data-toggle="dropdown">
@@ -126,6 +126,7 @@
                             </a>
                         </div>
                     </li>
+                    {% include 'Celsius3CoreBundle:Layout:_lang_panel.html.twig' %}
                     {% include 'Celsius3CoreBundle:Layout:_user_panel.html.twig' %}
 
                 </ul>
