@@ -1,6 +1,76 @@
 {% set local = app.request.getHost() == app.session.get('instance_host') %}
 {% import _self as local_macro %}
 
+
+{% macro admin_menu(instance) %}
+    <li class="nav-item mega-menu">
+        <a href="{{ url('administration') }}" class="nav-link">
+            <i class="ti-palette menu-icon"></i>
+            <span class="menu-title">{{ 'Administration' | trans }}
+                {% if count_users(instance)['pending'] > 0 %}
+                    <span class="label label-danger">{{ count_users(instance)['pending'] }}</span>
+                {% endif %}
+            <span class="caret"></span></span>
+            <i class="menu-arrow"></i>
+        </a>
+
+
+        <div class="submenu">
+            <div class="col-group-wrapper row">
+                <div class="col-group col-md-4">
+                    <div class="row">
+                        <div class="col-12">
+                            <p class="category-heading">{{ 'Elements' | trans }}</p>
+                            <div class="submenu-item">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <ul>
+                                            <li class="dropdown-header">{{ 'Elements' | trans }}</li>
+                                            <li class="nav-item"><a href="{{ path('admin_catalog') }}">{{ 'Catalogs' | trans }}</a></li>
+                                            <li class="nav-item"><a href="{{ path('admin_journal') }}">{{ 'Journals' | trans }}</a></li>
+                                            <li class="nav-item">
+                                                <a href="{% if count_users(instance)['pending'] > 0 %}{{ path('admin_user', { 'state[]': 'pending' }) }}{% else %}{{ path('admin_user') }}{% endif %}">
+                                                    {{ 'Users' | trans }}
+                                                    {% if count_users(instance)['pending'] > 0 %}
+                                                        <span class="label label-danger">{{ count_users(instance)['pending'] }}</span>
+                                                    {% endif %}
+                                                </a>
+                                            </li>
+                                            <li class="nav-item"><a href="{{ path('admin_contact') }}">{{ 'Contacts' | trans }}</a></li>
+                                            <li class="nav-item"><a href="{{ path('admin_country') }}">{{ 'Countries' | trans }}</a></li>
+                                            <li class="nav-item"><a href="{{ path('admin_city') }}">{{ 'Cities' | trans }}</a></li>
+                                            <li class="nav-item"><a href="{{ path('admin_institution') }}">{{ 'Institutions' | trans }}</a></li>
+                                            <li class="nav-item"><a href="{{ path('admin_file_download') }}">{{ 'File Downloads' | trans }}</a></li>
+                                            <li class="nav-item"><a href="{{ path('admin_maillist') }}">{{ 'Mail List' | trans }}</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <ul>
+                                            <li class="nav-item">
+                                                <a href="{{ path('admin_news') }}">
+                                                    <span class="glyphicon glyphicon-bullhorn"></span>
+                                                    {{ 'News' | trans }}
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="{{ path('admin_instance_configure') }}">
+                                                    <span class="glyphicon glyphicon-wrench"></span>
+                                                    {{ 'Configuration' | trans }}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+
+    </li>
+{% endmacro %}
+
 <div class="horizontal-menu">
     <nav class="navbar top-navbar col-lg-12 col-12 p-0">
         <div class="container">
@@ -60,6 +130,9 @@
                     <li  class="nav-item"><a class="nav-link" href="{{ path('user_index') }}">
                             <i class="ti-palette menu-icon"></i>
                             <span class="menu-title">{{ 'My Site' | trans }}</span></a></li>
+                {% endif %}
+                {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_ADMIN')) or is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_SUPER_ADMIN')) and not local %}
+                    {{ local_macro.admin_menu(instance) }}
                 {% endif %}
 
                 {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_USER')) and not local %}
@@ -171,139 +244,8 @@
                         </div>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="ti-clipboard menu-icon"></i>
-                        <span class="menu-title">Forms</span>
-                        <i class="menu-arrow"></i></a>
-                    <div class="submenu">
-                        <ul class="submenu-item">
-                            <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html">Basic Elements</a></li>
-                            <li class="nav-item"><a class="nav-link" href="pages/forms/advanced_elements.html">Advanced Elements</a></li>
-                            <li class="nav-item"><a class="nav-link" href="pages/forms/validation.html">Validation</a></li>
-                            <li class="nav-item"><a class="nav-link" href="pages/forms/wizard.html">Wizard</a></li>
-                            <li class="nav-item"><a class="nav-link" href="pages/forms/text_editor.html">Text Editor</a></li>
-                            <li class="nav-item"><a class="nav-link" href="pages/forms/code_editor.html">Code Editor</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item mega-menu">
-                    <a href="#" class="nav-link">
-                        <i class="ti-bar-chart-alt menu-icon"></i>
-                        <span class="menu-title">Data</span>
-                        <i class="menu-arrow"></i></a>
-                    <div class="submenu">
-                        <div class="col-group-wrapper row">
-                            <div class="col-group col-md-6">
-                                <p class="category-heading">Charts</p>
-                                <div class="submenu-item">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <ul>
-                                                <li class="nav-item"><a class="nav-link" href="pages/charts/chartjs.html">Chart Js</a></li>
-                                                <li class="nav-item"><a class="nav-link" href="pages/charts/morris.html">Morris</a></li>
-                                                <li class="nav-item"><a class="nav-link" href="pages/charts/flot-chart.html">Flot</a></li>
-                                                <li class="nav-item"><a class="nav-link" href="pages/charts/google-charts.html">Google Chart</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <ul>
-                                                <li class="nav-item"><a class="nav-link" href="pages/charts/sparkline.html">Sparkline</a></li>
-                                                <li class="nav-item"><a class="nav-link" href="pages/charts/c3.html">C3 Chart</a></li>
-                                                <li class="nav-item"><a class="nav-link" href="pages/charts/chartist.html">Chartist</a></li>
-                                                <li class="nav-item"><a class="nav-link" href="pages/charts/justGage.html">JustGage</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-group col-md-3">
-                                <p class="category-heading">Table</p>
-                                <ul class="submenu-item">
-                                    <li class="nav-item"><a class="nav-link" href="pages/tables/basic-table.html">Basic Table</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="pages/tables/data-table.html">Data Table</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="pages/tables/js-grid.html">Js-grid</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="pages/tables/sortable-table.html">Sortable Table</a></li>
-                                </ul>
-                            </div>
-                            <div class="col-group col-md-3">
-                                <p class="category-heading">Maps</p>
-                                <ul class="submenu-item">
-                                    <li class="nav-item"><a class="nav-link" href="pages/maps/mapael.html">Mapael</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="pages/maps/vector-map.html">Vector Map</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="pages/maps/google-maps.html">Google Map</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="nav-item mega-menu">
-                    <a href="#" class="nav-link">
-                        <i class="ti-layers menu-icon"></i>
-                        <span class="menu-title">Sample Pages</span>
-                        <i class="menu-arrow"></i></a>
-                    <div class="submenu">
-                        <div class="col-group-wrapper row">
-                            <div class="col-group col-md-3">
-                                <p class="category-heading">User Pages</p>
-                                <ul class="submenu-item">
-                                    <li class="nav-item"><a class="nav-link" href="pages/samples/login.html">Login</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="pages/samples/login-2.html">Login 2</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="pages/samples/register.html">Register</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="pages/samples/register-2.html">Register 2</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="pages/samples/lock-screen.html">Lockscreen</a></li>
-                                </ul>
-                            </div>
-                            <div class="col-group col-md-3">
-                                <p class="category-heading">Error Pages</p>
-                                <ul class="submenu-item">
-                                    <li class="nav-item"><a class="nav-link" href="pages/samples/error-400.html">400</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="pages/samples/error-404.html">404</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="pages/samples/error-500.html">500</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="pages/samples/error-505.html">505</a></li>
-                                </ul>
-                            </div>
-                            <div class="col-group col-md-3">
-                                <p class="category-heading">E-commerce</p>
-                                <ul class="submenu-item">
-                                    <li class="nav-item"><a class="nav-link" href="pages/samples/invoice.html">Invoice</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="pages/samples/pricing-table.html">Pricing Table</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="pages/samples/orders.html">Orders</a></li>
-                                </ul>
-                            </div>
-                            <div class="col-group col-md-3">
-                                <p class="category-heading">General</p>
-                                <ul class="submenu-item">
-                                    <li class="nav-item"><a class="nav-link" href="pages/samples/search-results.html">Search Results</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="pages/samples/profile.html">Profile</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="pages/samples/timeline.html">Timeline</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="pages/samples/news-grid.html">News grid</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="pages/samples/portfolio.html">Portfolio</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="pages/samples/faq.html">FAQ</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="ti-package menu-icon"></i>
-                        <span class="menu-title">Apps</span>
-                        <i class="menu-arrow"></i></a>
-                    <div class="submenu">
-                        <ul class="submenu-item">
-                            <li class="nav-item"><a class="nav-link" href="pages/apps/email.html">Email</a></li>
-                            <li class="nav-item"><a class="nav-link" href="pages/apps/calendar.html">Calendar</a></li>
-                            <li class="nav-item"><a class="nav-link" href="pages/apps/todo.html">Todo List</a></li>
-                            <li class="nav-item"><a class="nav-link" href="pages/apps/gallery.html">Gallery</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a href="pages/documentation/documentation.html" class="nav-link">
-                        <i class="ti-receipt menu-icon"></i>
-                        <span class="menu-title">Documentation</span></a>
-                </li>
+
+
             </ul>
         </div>
     </nav>
