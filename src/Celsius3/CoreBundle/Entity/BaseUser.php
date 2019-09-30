@@ -200,6 +200,14 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      */
     protected $locked = false;
 
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $idioma;
+
+
+
     public function __toString()
     {
         return ucwords(strtolower($this->getSurname())) . ', ' . ucwords(strtolower($this->getName()));
@@ -268,6 +276,32 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     {
         return $this->name;
     }
+
+
+    /**
+     * Set name.
+     *
+     * @param string $name
+     *
+     * @return self
+     */
+    public function setIdioma($idioma)
+    {
+        $this->idioma= $idioma;
+
+        return $this;
+    }
+
+    /**
+     * Get name.
+     *
+     * @return string $idioma
+     */
+    public function getIdioma()
+    {
+        return $this->idioma;
+    }
+
 
     /**
      * Set surname.
