@@ -1,1 +1,5 @@
-<span>{{ element.name }}</span>
+{% if element.instance.id == instance.id %}
+    <b></a><span>{{ element.name }}</span></b>
+{% else %}
+    <span>{{ element.name }}</span>
+{% endif %}

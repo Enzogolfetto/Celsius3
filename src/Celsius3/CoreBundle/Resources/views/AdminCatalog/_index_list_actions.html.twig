@@ -9,10 +9,10 @@
 
     {% if is_catalog_enabled(element) %}
         <li>
-            <a href="{{ path('admin_catalog_disable', { 'id': element.id }) }}" data-toggle="tooltip"
+           <a href="{{ path('admin_catalog_disable', { 'id': element.id }) }}" data-toggle="tooltip"
                title="{{ 'Disable catalog' | trans }}">
                 <span class="glyphicon glyphicon-remove"></span></a>
-        </li>
+          </li>
     {% else %}
         <li>
             <a href="{{ path('admin_catalog_enable', { 'id': element.id }) }}" data-toggle="tooltip"

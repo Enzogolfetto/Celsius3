@@ -49,7 +49,9 @@ class MailerHelper
         try {
             $transport = \Swift_SmtpTransport::newInstance($host, $port, $protocol)
                 ->setUsername($user)
-                ->setPassword($pass);
+                ->setPassword($pass)
+                ->setAuthMode('login');
+
             $mailer = new \Swift_Mailer($transport);
             $mailer->getTransport()->start();
         } catch (\Swift_TransportException $e) {
